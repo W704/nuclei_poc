@@ -1,0 +1,35 @@
+id: sophos-phish
+
+info:
+  name: sophos phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    A sophos phishing website was detected
+  reference:
+    - https://sophos.com
+  metadata:
+    max-request: 1
+  tags: phishing,sophos,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'Cybersecurity as a Service Delivered | Sophos'
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"sophos.com")'
+# digest: 4a0a004730450220035a92f6c720aeb9daec24d38537f90d6114680703ea38bbfb3da176db0b21af022100fc38da4bef15f9a9cdffb698a3b0c5d50ab834c04324fd510863a81a3f2516cf:922c64590222798bb761d5b6d8e72950

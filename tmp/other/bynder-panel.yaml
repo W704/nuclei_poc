@@ -1,0 +1,35 @@
+id: bynder-panel
+
+info:
+  name: Bynder Login Panel - Detect
+  author: righettod
+  severity: info
+  description: |
+    Bynder login panel was detected.
+  reference:
+    - https://www.bynder.com/en/
+  metadata:
+    verified: true
+    max-request: 1
+    shodan-query: http.favicon.hash:1017650009
+  tags: panel,bynder,login,detect
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/login/"
+
+    matchers:
+      - type: dsl
+        dsl:
+          - 'status_code == 200'
+          - 'contains_any(to_lower(body), "bynder.", "bynder brand portal", "bynder login")'
+        condition: and
+
+    extractors:
+      - type: regex
+        part: body
+        group: 1
+        regex:
+          - 'http-equiv="version"\s+content="([0-9\.]+)"'
+# digest: 4a0a00473045022100b27910ae330298c4d2666e96858638f64ce7bbe8b806dd398f8ffb2340f0a55e022019b7b8a132b2f5f2ad41951beef8ae5d8614b87a1758e9c8add1e3b6cc166360:922c64590222798bb761d5b6d8e72950

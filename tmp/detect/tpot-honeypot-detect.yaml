@@ -1,0 +1,32 @@
+id: tpot-honeypot-detect
+
+info:
+  name: T-Pot Honeypot - Detect
+  author: rxerium
+  severity: info
+  description: |
+    A tpot dashboard has been detected
+  reference:
+    - https://github.com/telekom-security/tpotce
+  metadata:
+    max-request: 1
+  tags: tpot,honeypot
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "<title>T-Pot</title>"
+          - "T-Pot @ Github"
+          - "T-Pot ReadMe"
+        condition: and
+
+      - type: status
+        status:
+          - 200
+# digest: 4a0a00473045022075dbd8383a53701869b5779fdda2ede75adfab000137c640e1d9c9418cdb7dca022100f287c3d47c114ae438628135a0f15a11ae0a9475fd23688ee495e887297ea5e6:922c64590222798bb761d5b6d8e72950

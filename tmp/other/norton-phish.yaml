@@ -1,0 +1,35 @@
+id: norton-phish
+
+info:
+  name: norton phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    A norton phishing website was detected
+  reference:
+    - https://norton.com
+  metadata:
+    max-request: 1
+  tags: phishing,norton,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'Official Site | Norton™ - Antivirus &amp; Anti-Malware Software'
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"norton.com")'
+# digest: 490a0046304402201d72cd1696c03a156911067c77860236a0d41b2b0eb2e7eb3d84f513526b385602204605d7b8b147bfeb9846cde9006418f9b39f7b2b6afcd652efaac41bc00f8fda:922c64590222798bb761d5b6d8e72950

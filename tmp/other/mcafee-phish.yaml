@@ -1,0 +1,35 @@
+id: mcafee-phish
+
+info:
+  name: mcafee phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    A mcafee phishing website was detected
+  reference:
+    - https://mcafee.com
+  metadata:
+    max-request: 1
+  tags: phishing,mcafee,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'Antivirus, VPN, Identity &amp; Privacy Protection | McAfee'
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"mcafee.com")'
+# digest: 4a0a00473045022100dce6a415fec6d4f8b49b6c70012cc83e289cb853f6d4ab4d18c8f424557e6e8c0220699cc83b50d4eeeb4d3c60b57efb8feba4c873237abd7e2de1fd0eba2827c010:922c64590222798bb761d5b6d8e72950

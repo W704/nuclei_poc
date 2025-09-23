@@ -1,0 +1,38 @@
+id: digital-ocean-phish
+
+info:
+  name: digital ocean phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    A digital-ocean phishing website was detected
+  reference:
+    - https://digitalocean.com
+  metadata:
+    max-request: 1
+  tags: phishing,digital-ocean,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'DigitalOcean | Cloud Infrastructure for Developers'
+          - 'DigitalOcean'
+        condition: and
+
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"digitalocean.com")'
+# digest: 490a0046304402202a58a6a6ac22732838ff8297b7bc3acf39f6cfeb7c77b828ec6b8e272cbba43a02207cb710715d843acacd68f19a41370b7afa515565356746224eddd66690ac18ac:922c64590222798bb761d5b6d8e72950

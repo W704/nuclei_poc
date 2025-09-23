@@ -1,0 +1,35 @@
+id: Discord-phish
+
+info:
+  name: Discord phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    A Discord phishing website was detected
+  reference:
+    - https://discord.com
+  metadata:
+    max-request: 1
+  tags: phishing,discord,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'Discord | Your Place to Talk and Hang Out'
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"discord.com")'
+# digest: 4b0a00483046022100c8b86cb5115a99453093dbc672ba7987b35b4ac274247a9b44d860333c2eaa53022100c78d2ce8ce84da0614a0f39a036b4d25af9922f408170e8a260e650cba2dabbe:922c64590222798bb761d5b6d8e72950
